@@ -1,0 +1,26 @@
+services:
+  db:
+    build:
+      context: .
+      dockerfile: postgresDockerfile
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1212
+      POSTGRES_DB: test_DB
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1212
+      POSTGRES_DB: test_DB
+      POSTGRES_SSLMODE: disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      -db
